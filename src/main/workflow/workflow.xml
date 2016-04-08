@@ -14,6 +14,9 @@
 			<case to="ssh-hadoop-get">
 				${wf:conf("jump.to") eq "ssh"}
 			</case>
+			<case to="test-java-action">
+				${wf:conf("jump.to") eq "java"}
+			</case>
 			<default to="mr-wordcount" />
 		</switch>
 	</decision>
@@ -55,6 +58,16 @@
 		<ok to="example-workflow-end" />
 		<error to="kill" />
 	</action>
+
+  <action name="test-java-action">
+    <java>
+			<job-tracker>${jobTracker}</job-tracker>
+			<name-node>${nameNode}</name-node>
+      <main-class>com.yuta.examples.TestAction</main-class>
+    </java>
+		<ok to="example-workflow-end" />
+		<error to="kill" />
+  </action>
 
 	<!-- WordCount MapReduce job -->
 	<action name="mr-wordcount">
